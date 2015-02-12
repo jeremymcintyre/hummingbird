@@ -54,13 +54,17 @@ Initially, each machine pulls from the remote master.
 `git push -u origin yourbranchname`
 
 - When finished with a feature, push to make sure remote feature branch has all commits
+
 `git push`
+
 - Pull request in GUI
 - Once the pull request is OK'd, someone needs to merge it on their own machine, first making sure their own local master is up to date
 
 `git checkout master`
 
 `git pull`
+
+`git pull origin thefeaturebranchtobemerged`
 
 `git push`
 
