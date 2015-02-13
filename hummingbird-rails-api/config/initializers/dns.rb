@@ -1,0 +1,1 @@
+require 'em-resolv-replace'
