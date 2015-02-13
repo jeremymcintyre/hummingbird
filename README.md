@@ -40,7 +40,9 @@ A user can use their phone (their phone number) to send a text message that will
 ## Git workflow
 Initially, each machine pulls from the remote master.
 - When beginning a new feature, checkout a new branch. Work only on files related to this feature.
+
 `git checkout -b yourbranchname`
+
 - Make commits on the feature branch locally until the feature is done. Use imperative and be descriptive; use semicolons to separate thoughts. Commit often.
 
 `git status`
@@ -58,7 +60,7 @@ Initially, each machine pulls from the remote master.
 `git push`
 
 - Pull request in GUI
-- Once the pull request is OK'd, someone needs to merge it on their own machine, first making sure their own local master is up to date
+- Once the pull request is OK'd by the other pair, someone needs to merge it on their own machine, first making sure their own local master is up to date
 
 `git checkout master`
 
