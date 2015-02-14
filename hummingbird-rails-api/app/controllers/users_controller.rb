@@ -1,7 +1,6 @@
 # require 'twilio-ruby'
 
 class UsersController < ActionController::API
-  include UsersHelper
 
   def send_verification_code
     setup_sms
