@@ -21,10 +21,10 @@ class UsersController < ActionController::API
       @client = Twilio::REST::Client.new(account_sid, auth_token)
     end
 
-    def send_sms(deliver_to, body)
+    def send_sms(to, body)
       @client.messages.create(
         from: ENV['TWILIO_NUMBER'],
-        to: deliver_to,
+        to: to,
         body: body)
     end
 
