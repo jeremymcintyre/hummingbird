@@ -6,6 +6,7 @@ class UsersController < ActionController::API
     setup_sms
     send_sms(params[:number],
       "Your verification code is: " + generate_verification_code)
+    # need to store generated code in DB for checking in verify_code
   end
 
   def missing_phone
@@ -13,15 +14,16 @@ class UsersController < ActionController::API
     # user.phone_number.nil?
     # redirect user if this returns true
     # otherwise, return something to client
-    # probably redirect them to send_verifcation_code client route
+    # probably redirect them to send_verification_code client route
   end
 
   def verify_code
     # code = params[:number]
     # user = User.find_by(google stuff)
-    # if code == user.verification_code
     # this route will be hit when the user sends the verification
     # code they get after requesting it in users#send_verification_code
+    # if code == user.code_verified, redirect to Angular Client messages page
+    # else, re-render verification code page w/ error handling
   end
 
   private
