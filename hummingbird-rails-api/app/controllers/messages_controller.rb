@@ -1,4 +1,15 @@
-  class MessagesController < ActionController::API
+class MessagesController < ActionController::API
+
+  def create
+    # receive form data with message body & date/time to deliver
+    # pull user phone number from DB & append to sms body
+    p "*"*50
+    p params
+    # user = User.find_by()
+    to = params[:number]
+    sms_body = params[:body] + "\n Sent to you from: #{to}"
+    send_message(to, sms_body)
+  end
 
   def send_messages
     # logic with code to see if they are ready to be sent out
