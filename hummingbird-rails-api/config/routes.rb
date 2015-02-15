@@ -15,9 +15,7 @@ Rails.application.routes.draw do
   # Example resource route (maps HTTP verbs to controller actions automatically):
       resources :users do
         member do
-          get 'missing_phone'
           post 'send_verification_code', as: "send_verification_code"
-          get 'verify_code'
           post 'verify_code'
         end
         resources :messages do
