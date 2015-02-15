@@ -9,7 +9,19 @@ class UsersController < ActionController::API
   end
 
   def missing_phone
+    # user = User.find_by(dat google info)
+    # user.phone_number.nil?
+    # redirect user if this returns true
+    # otherwise, return something to client
+    # probably redirect them to send_verifcation_code client route
+  end
 
+  def verify_code
+    # code = params[:number]
+    # user = User.find_by(google stuff)
+    # if code == user.verification_code
+    # this route will be hit when the user sends the verification
+    # code they get after requesting it in users#send_verification_code
   end
 
   private
