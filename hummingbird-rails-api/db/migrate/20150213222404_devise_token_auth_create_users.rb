@@ -43,7 +43,6 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration
       t.string :phone_number
       t.string :verification_code
       t.boolean :phone_verified, :default => false
-      # t.boolean :phone_verified, default: false
 
       ## Tokens
       t.text :tokens
