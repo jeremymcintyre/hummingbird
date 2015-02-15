@@ -11,18 +11,19 @@ class UsersController < ActionController::API
       p number
       code = generate_verification_code
       user.verification_code = code # stores generated code in DB
-      # setup_sms
-      # send_sms(params[:number],
-      #   "Your verification code is: " + code)
+      setup_sms
+      send_sms(params[:number],
+        "Your verification code is: " + code)
     elsif /\d{10}/.match(params[:number])
+      p params[:number]
       number = "+1" + params[:number]
       code = generate_verification_code
       user.verification_code = code # stores generated code in DB
       p "10 digit number with +1 appended"
       p number
-      # setup_sms
-      # send_sms(params[:number],
-      #   "Your verification code is: " + code)
+      setup_sms
+      send_sms(params[:number],
+        "Your verification code is: " + code)
     else
       render :json => {
         error: "Your phone number format is invalid.
@@ -36,7 +37,9 @@ class UsersController < ActionController::API
     # this route will be hit when the user sends the verification
     # code they get after requesting it in users#send_verification_code
     user_entered_code = params[:number] # this is from the client-side form submission
+    p user_entered_code
     user = User.find_by(id: params[:id]) # will grab id from front end client
+    p username
     username = User.name
     if user_entered_code == user.verification_code # compares client and DB codes
     # if code == user.code_verified, send client welcome message to render
