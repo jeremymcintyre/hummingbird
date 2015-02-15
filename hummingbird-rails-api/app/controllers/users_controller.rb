@@ -20,7 +20,9 @@ class UsersController < ActionController::API
     username = User.name
     if user_entered_code == user.verification_code # compares client and DB codes
     # if code == user.code_verified, send client welcome message to render
+      user.phone_verified = true
       render :json => { welcome: "Hey Username #{username}!"}
+
     else
     # else, send client error message to render
       render :json => {error: "Your verification code is incorrect. Please request another."}
