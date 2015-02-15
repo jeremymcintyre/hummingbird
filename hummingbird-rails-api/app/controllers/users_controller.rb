@@ -8,7 +8,7 @@ class UsersController < ActionController::API
 
     if /\+1\d{10}/.match(params[:number])
       p "+1 followed by 10 digits"
-      p number
+      p params[:number]
       code = generate_verification_code
       user.verification_code = code # stores generated code in DB
       setup_sms
@@ -39,12 +39,12 @@ class UsersController < ActionController::API
     user_entered_code = params[:number] # this is from the client-side form submission
     p user_entered_code
     user = User.find_by(id: params[:id]) # will grab id from front end client
-    p username
     username = User.name
+    p username
     if user_entered_code == user.verification_code # compares client and DB codes
     # if code == user.code_verified, send client welcome message to render
       user.phone_verified = true
-      render :json => { welcome: "Hey Username #{username}!"}
+      render :json => { phone_verified: true, welcome: "Hey Username #{username}!"}
     else
     # else, send client error message to render
       render :json => {error: "Your verification code is incorrect. Please request another."}
