@@ -20,6 +20,8 @@ Rails.application.routes.draw do
           get 'verify_code'
           post 'verify_code'
         end
+        resources :messages do
+        end
       end
   #   resources :products
 

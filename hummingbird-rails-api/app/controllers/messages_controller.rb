@@ -1,8 +1,8 @@
-class MessagesController < ActionController::API
+  class MessagesController < ActionController::API
 
   def send_messages
-    # logic with shitty ass code to see if they are to be sent out
-    # batch of messages that makes me api...get it
+    # logic with code to see if they are ready to be sent out
+    # batch of messages
     @batch.each do |message|
       # need to include User.phone_number in body
       send_message(message.to, message.body)

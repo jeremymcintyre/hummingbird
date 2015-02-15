@@ -8,6 +8,10 @@ class UsersController < ActionController::API
       "Your verification code is: " + generate_verification_code)
   end
 
+  def missing_phone
+
+  end
+
   private
 
     def generate_verification_code
