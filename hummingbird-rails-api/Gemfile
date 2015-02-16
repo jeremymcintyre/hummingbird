@@ -15,6 +15,10 @@ gem 'dotenv-rails', :groups => [:development, :test]
 
 gem "eventmachine"
 
+#random one time password
+gem 'rotp'
+gem 'twilio-ruby', '~> 3.12'
+
 gem 'em-resolv-replace', :require => false
 
 # To use ActiveModel has_secure_password

@@ -39,6 +39,11 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration
       t.string :image
       t.string :email
 
+      # Phone number and verifications
+      t.string :phone_number
+      t.string :verification_code
+      t.boolean :phone_verified, :default => false
+
       ## Tokens
       t.text :tokens
 
