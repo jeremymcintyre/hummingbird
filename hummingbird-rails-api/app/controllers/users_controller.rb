@@ -1,6 +1,7 @@
 # require 'twilio-ruby'
 
 class UsersController < ActionController::API
+  include MessageHelper
 
   def send_verification_code
     user = User.find_by(id: params[:id]) # will grab id from front end client
@@ -58,17 +59,17 @@ class UsersController < ActionController::API
       totp.now.to_s
     end
 
-    def setup_sms
-      account_sid = ENV['TWILIO_ACCOUNT_SID']
-      auth_token = ENV['TWILIO_AUTH_TOKEN']
-      @client = Twilio::REST::Client.new(account_sid, auth_token)
-    end
+    # def setup_sms
+    #   account_sid = ENV['TWILIO_ACCOUNT_SID']
+    #   auth_token = ENV['TWILIO_AUTH_TOKEN']
+    #   @client = Twilio::REST::Client.new(account_sid, auth_token)
+    # end
 
-    def send_sms(to, body)
-      @client.messages.create(
-        from: ENV['TWILIO_NUMBER'],
-        to: to,
-        body: body)
-    end
+    # def send_sms(to, body)
+    #   @client.messages.create(
+    #     from: ENV['TWILIO_NUMBER'],
+    #     to: to,
+    #     body: body)
+    # end
 
 end
