@@ -19,6 +19,9 @@ gem "eventmachine"
 gem 'rotp'
 gem 'twilio-ruby', '~> 3.12'
 
+# single-process async Ruby
+gem 'sucker_punch'
+
 gem 'em-resolv-replace', :require => false
 
 # To use ActiveModel has_secure_password
