@@ -35,11 +35,12 @@ class MessageQueueHandler
 
     def send_messages
       batch = Message.where("send_at_datetime <= ? and sent = ?", Time.now, false) # sends messages that have send_date_time < Time.now
-      p batch
+      # p batch
       batch.each do |message|
-        p message.to
-        p message.body
+        # id = messa
         send_message(message.to, message.body)
+        # Message.delete(id)
       end
+      batch.destroy_all
     end
 end

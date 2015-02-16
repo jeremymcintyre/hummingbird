@@ -10,7 +10,7 @@ class MessagesController < ActionController::API
     to = params[:number]
     sms_body = params[:body] + "\n Sent to you from: #{from}"
     # Build message
-    message = Message.new(to: to, from: from, body: sms_body, send_at_datetime: params[:send_at_datetime])
+    message =user.messages.new(to: to, from: from, body: sms_body, send_at_datetime: params[:send_at_datetime])
     # save message to DB
     message.save
     # how do we handle validation errors for this???
