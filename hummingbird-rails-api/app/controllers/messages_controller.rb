@@ -1,5 +1,6 @@
 class MessagesController < ActionController::API
-  include MessageHelper
+  include MessagesHelper
+  include UsersHelper
 
   def create
     user = User.find_by(params[:id])

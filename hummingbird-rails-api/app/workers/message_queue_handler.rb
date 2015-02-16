@@ -1,5 +1,6 @@
 class MessageQueueHandler
-  include MessageHelper
+  include MessagesHelper
+  include UsersHelper
   include SuckerPunch::Job
   workers 4
 
