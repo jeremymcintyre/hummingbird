@@ -1,15 +1,23 @@
 module MessageHelper
   private
-
+  # User Methods
   def current_user
-    user = User.find_by(id: params[:id])
+    @user = User.find_by(id: params[:id])
   end
-  # this is DRY-er but would require additional DB calls
-  # in the case of something like current_user.name or whatever
-  # I guess you could do user = current_user to get around that
 
+  def set_user_phone
+    @user.update_attributes(phone_number: params[:number])
+  end
 
-  # These steps are in like 3 places and should probably be consolidated here
+  def set_user_verification_code
+    @user.update_attributes(verification_code: generate_verification_code)
+  end
+
+  def set_phone_verified
+    @user.update_attributes(phone_verified: true)
+  end
+
+  # Message Methods
   def setup_sms
     account_sid = ENV['TWILIO_ACCOUNT_SID']
     auth_token = ENV['TWILIO_AUTH_TOKEN']
