@@ -13,9 +13,7 @@ class MessagesController < ActionController::API
 
   def index
     messages = User.find_by(params[:id]).messages
-
     render json: {messages: messages}
-
   end
 
 end
