@@ -28,6 +28,10 @@ class MessagesController < ActionController::API
     end
   end
 
+  def destroy
+    Message.find_by(id: params[:id]).destroy
+  end
+
 private
   def to_boolean(string)
     string == 'true'
