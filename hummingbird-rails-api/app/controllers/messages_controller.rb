@@ -3,7 +3,7 @@ class MessagesController < ActionController::API
   include UsersHelper
 
   def create
-    user = User.find_by(params[:id])
+    user = User.find_by(id: params[:user_id].to_i)
     from = user.phone_number
     to = params[:number]
     sms_body = params[:body]
