@@ -25,7 +25,10 @@ class UsersController < ActionController::API
     username = @user.name
     if user_entered_code == @user.verification_code
       set_phone_verified
-      render :json => { phone_verified: true, welcome: "Hey #{username}!"}
+      render :json => { username: @user.name,
+                        id: @user.id,
+                        phone_verified: true,
+                        welcome: "Hey #{username}!" }
     else
       render :json => {error: "Your verification code is incorrect. Please request another."}
     end
