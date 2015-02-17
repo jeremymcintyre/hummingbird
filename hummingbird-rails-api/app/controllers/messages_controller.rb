@@ -12,9 +12,20 @@ class MessagesController < ActionController::API
   end
 
   def index
-    sent_status = to_boolean(params[:sent])
-    messages = User.find_by(params[:id]).messages.where(sent: sent_status)
-    render json: {messages: messages}
+    # p "Params are : #{ params}"
+    # p "Is in Params is : #{ params[:user_id]}"
+    # p "User is #{ User.find_by(id: params[:user_id].to_i).name}"
+    # user = User.find_by(id: params[:user_id].to_i)
+    # p sent_status = to_boolean(params[:sent])
+    # p user.messages.pluck(:sent)
+
+    if params[:sent]
+      messages = user.messages.where(sent: sent_status).order('send_at_datetime ASC')
+      render json: {messages: messages}
+    else
+      messages = user.messages
+      render json: {messages: messages}
+    end
   end
 
 private
