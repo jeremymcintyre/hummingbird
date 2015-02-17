@@ -12,8 +12,12 @@ class MessagesController < ActionController::API
   end
 
   def index
-    messages = User.find_by(params[:id]).messages
+    messages = User.find_by(params[:id]).messages.where(sent: to_boolean(params[:sent]))
     render json: {messages: messages}
   end
 
+private
+  def to_boolean(string)
+    string == 'true'
+  end
 end
