@@ -15,8 +15,8 @@ class MessagesController < ActionController::API
     # p "Params are : #{ params}"
     # p "Is in Params is : #{ params[:user_id]}"
     # p "User is #{ User.find_by(id: params[:user_id].to_i).name}"
-    # user = User.find_by(id: params[:user_id].to_i)
-    # p sent_status = to_boolean(params[:sent])
+    user = User.find_by(id: params[:user_id].to_i)
+    sent_status = to_boolean(params[:sent])
     # p user.messages.pluck(:sent)
 
     if params[:sent]
