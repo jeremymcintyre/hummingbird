@@ -21,7 +21,7 @@ class MessageQueueHandler
       batch = Message.where("send_at_datetime <= ? and sent = ?", Time.now, false)
 
       batch.each do |message|
-        send_message(message.to, message.body)
+        send_message(message.to, message.body + "\n Sent to you from: #{message.from}")
         message.update_attributes(sent: true)
       end
     end
