@@ -39,9 +39,6 @@ gem 'em-resolv-replace', :require => false
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-gem 'devise_token_auth', '~>0.1.32.beta'
-gem 'omniauth'
-
 gem "figaro"
 gem 'rack-cors', :require => 'rack/cors'
 gem "responders"
