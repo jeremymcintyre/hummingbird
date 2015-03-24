@@ -7,8 +7,6 @@ gem 'rails-api'
 
 gem 'spring', :group => :development
 
-gem "omniauth-google-oauth2"
-
 gem 'pg'
 
 gem 'dotenv-rails', :groups => [:development, :test]
