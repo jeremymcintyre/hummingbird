@@ -17,7 +17,6 @@
 .env
 
 # Ignore the secret token file
-/config/initializers/secret_token.rb
-
+/config/secrets.yml
 
 .DS_Store
