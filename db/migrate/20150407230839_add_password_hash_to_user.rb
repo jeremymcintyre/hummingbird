@@ -1,5 +1,5 @@
 class AddPasswordHashToUser < ActiveRecord::Migration
   def change
-    add_column :users, :string, :password_hash
+    add_column :users, :password_hash, :string
   end
 end
