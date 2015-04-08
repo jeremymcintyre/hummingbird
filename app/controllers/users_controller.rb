@@ -2,6 +2,35 @@ class UsersController < ActionController::API
   include MessagesHelper
   include UsersHelper
 
+  def index
+
+    render json: "asdgaf"
+  end
+
+  def show
+    user = User.find(1)
+    if user.nil?
+      render json: "whatever?"
+    else
+      render json: "success"
+    end
+  end
+
+  def create
+    @user = User.new(
+      email: params[:email],
+      password_hash: params[:password_hash],
+      phone_number: params[:phone_number])
+    @user.password = params[:password]
+
+    if @user.save
+      render json: { success: "user saved"}
+    else
+      render json: { error: "user did not save"}
+    end
+
+  end
+
   def send_verification_code
     current_user
     set_user_phone

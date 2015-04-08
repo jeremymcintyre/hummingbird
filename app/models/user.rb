@@ -5,8 +5,8 @@ class User < ActiveRecord::Base
 
   validates_format_of :phone_number, :with => /\+\d{11}/, :on => :create
 
-  validates_presence_of :name, :email#, :password_hash
-  validates_uniqueness_of :name, :email#, :password_hash
+  validates_presence_of :email#, :name, :password_hash
+  validates_uniqueness_of :email#, :name, :password_hash
 
   def password
     @password ||= Password.new(password_hash)
