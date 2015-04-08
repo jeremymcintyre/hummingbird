@@ -4,6 +4,7 @@ module UsersHelper
 
   def current_user
     @user = User.find_by(id: params[:id])
+    # Where is this getting params[:id] from?
   end
 
   def set_user_phone

@@ -3,24 +3,28 @@ class UsersController < ActionController::API
   include UsersHelper
 
   def index
-
-    render json: "asdgaf"
+    # Need to revise this. These routes should not be publicly accessible and/or should return a proper response or warning to anyone accessing them.
+    render json: "APIs don't have index pages"
   end
 
   def show
+    # Need to revise this. These routes should not be publicly accessible and/or should return a proper response or warning to anyone accessing them.
     user = User.find(1)
     if user.nil?
-      render json: "whatever?"
+      render json: "No users here."
     else
-      render json: "success"
+      render json: "Found the user."
     end
   end
 
   def create
+    p params
     @user = User.new(
       email: params[:email],
       password_hash: params[:password_hash],
       phone_number: params[:phone_number])
+      # should this be params[:password_hash]
+      # BCrypt is confusing me
     @user.password = params[:password]
 
     if @user.save
@@ -32,9 +36,10 @@ class UsersController < ActionController::API
   end
 
   def send_verification_code
-    current_user
+    current_user # This doesn't work right
     set_user_phone
 
+    p params
     if /\+1\d{10}/.match(params[:number])
       set_user_verification_code
       build_and_send_code
