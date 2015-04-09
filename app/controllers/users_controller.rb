@@ -17,7 +17,8 @@ class UsersController < ActionController::API
     end
   end
 
-  def register
+  def create
+    # can't make this def register because of Rails
     p params
     # if user exists, go to new message page
     # else, make new user, set BCrypt password
@@ -31,13 +32,21 @@ class UsersController < ActionController::API
     @user.password = params[:password]
 
     if @user.save
-      render json: { success: "user register and saved to database"}
+      render json: { success: "user registered and saved to database"}
     else
       render json: { error: "user did not save"}
     end
   end
 
   def login
+    @user = User.find_by(id: params[:id])
+    # id is used to come from local storage
+    # need to use some way to pass this info along
+    if @user
+    render json: { success: "user exists, set to logged in" }
+    else
+      render json: { error: "user not found, login failed"}
+    end
     # if user exists in DB, return JSON
     # telling client to send user to new_message
     # otherwise, render form error message?
