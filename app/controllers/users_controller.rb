@@ -17,8 +17,11 @@ class UsersController < ActionController::API
     end
   end
 
-  def create
+  def register
     p params
+    # if user exists, go to new message page
+    # else, make new user, set BCrypt password
+    # and return / leave them on login page
     @user = User.new(
       email: params[:email],
       password_hash: params[:password_hash],
@@ -28,11 +31,16 @@ class UsersController < ActionController::API
     @user.password = params[:password]
 
     if @user.save
-      render json: { success: "user saved"}
+      render json: { success: "user register and saved to database"}
     else
       render json: { error: "user did not save"}
     end
+  end
 
+  def login
+    # if user exists in DB, return JSON
+    # telling client to send user to new_message
+    # otherwise, render form error message?
   end
 
   def send_verification_code
