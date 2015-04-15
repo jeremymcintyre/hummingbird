@@ -18,32 +18,34 @@ class UsersController < ActionController::API
   end
 
   def create
-    # can't make this def register because of Rails
     p params
     # if user exists, go to new message page
     # else, make new user, set BCrypt password
     # and return / leave them on login page
     @user = User.new(
       email: params[:email],
-      password_hash: params[:password_hash],
-      phone_number: params[:phone_number])
-      # should this be params[:password_hash]
-      # BCrypt is confusing me
+      password_hash: params[:password])
     @user.password = params[:password]
 
     if @user.save
-      render json: { success: "user registered and saved to database"}
+      session[:user_id] = @user.id
+      p "here's the session"
+      p session
+      p "here's the new user"
+      p @user
+      render json: { success: "success"}
     else
       render json: { error: "user did not save"}
     end
   end
 
   def login
-    @user = User.find_by(id: params[:id])
-    # id is used to come from local storage
-    # need to use some way to pass this info along
-    if @user
-    render json: { success: "user exists, set to logged in" }
+    @user = User.find_by(email: params[:email])
+    p params
+    p "attempting login with user"
+    p @user
+    if current_user && @user.password == params[:password]
+      render json: { success: "user exists, set to logged in" }
     else
       render json: { error: "user not found, login failed"}
     end
@@ -52,11 +54,21 @@ class UsersController < ActionController::API
     # otherwise, render form error message?
   end
 
+  def logout
+    if current_user
+      session[:user_id] = nil
+      render json: { success: "success"}
+    else
+      render json: { error: "logout failed"}
+    end
+  end
+
   def send_verification_code
     current_user # This doesn't work right
+    p current_user
+    p params
     set_user_phone
 
-    p params
     if /\+1\d{10}/.match(params[:number])
       set_user_verification_code
       build_and_send_code
@@ -67,22 +79,22 @@ class UsersController < ActionController::API
       render :json => {
         error: "Your phone number format is invalid.
         Please use this format: +15558675309."}
+      end
     end
-  end
 
-  def verify_code
-    user_entered_code = params[:number]
-    current_user
-    username = @user.name
-    if user_entered_code == @user.verification_code
-      set_phone_verified
-      render :json => { phone_verified: true, welcome: "Hey #{username}!"}
-    else
-      render :json => {error: "Your verification code is incorrect. Please request another."}
+    def verify_code
+      user_entered_code = params[:number]
+      current_user
+      username = @user.name
+      if user_entered_code == @user.verification_code
+        set_phone_verified
+        render :json => { phone_verified: true, welcome: "Hey #{username}!"}
+      else
+        render :json => {error: "Your verification code is incorrect. Please request another."}
+      end
     end
-  end
 
-  private
+    private
 
     def generate_verification_code
       totp = ROTP::TOTP.new("base32secret3232")
@@ -94,4 +106,4 @@ class UsersController < ActionController::API
       send_sms(@user.phone_number, "Your verification code is: " + @user.verification_code)
     end
 
-end
+  end
