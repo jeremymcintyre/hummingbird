@@ -4,16 +4,16 @@ class UsersController < ActionController::API
 
   def index
     # Need to revise this. These routes should not be publicly accessible and/or should return a proper response or warning to anyone accessing them.
-    render :json "APIs don't have index pages"
+    render :json => "APIs don't have index pages"
   end
 
   def show
     # Need to revise this. These routes should not be publicly accessible and/or should return a proper response or warning to anyone accessing them.
     user = User.find(1)
     if user.nil?
-      render :json "No users here."
+      render :json => "No users here."
     else
-      render :json "Found the user."
+      render :json => "Found the user."
     end
   end
 
@@ -32,9 +32,10 @@ class UsersController < ActionController::API
       p session
       p "here's the new user" * 5
       p @user
-      render :json { id: @user.id }
+      data = { id: @user.id }
+      render :json => data
     else
-      render :json { error: "user did not save"}
+      render :json => { error: "user did not save"}
     end
   end
 
@@ -43,11 +44,12 @@ class UsersController < ActionController::API
     p params
     p "attempting login with user" * 5
     p @user
+    sessionp[:user_id] = @user.id
     p session[:user_id]
     if current_user && @user.password == params[:password]
-      render :json { success: "user #{@user.id} exists, and is logged in with session #{session[:user_id]}"}
+      render :json => { success: "user #{@user.id} exists, and is logged in with session #{session[:user_id]}"}
     else
-      render :json { error: "user not found, login failed"}
+      render :json => {error: "user not found, login failed"}
     end
     # if user exists in DB, return JSON
     # telling client to send user to new_message
@@ -57,16 +59,17 @@ class UsersController < ActionController::API
   def logout
     if current_user
       session[:user_id] = nil
-      render :json { success: "successful logout"}
+      render :json => { success: "successful logout"}
     else
-      render :json { error: "logout failed"}
+      render :json => { error: "logout failed" }
     end
   end
 
   def send_verification_code
-    current_user # This doesn't work right
-    p current_user
+    p "first, the params"
     p params
+    current_user # This doesn't work right
+    p "session is: #{session[:user_id]} and user is #{current_user.email}"
     set_user_phone
 
     if /\+1\d{10}/.match(params[:number])
@@ -83,8 +86,10 @@ class UsersController < ActionController::API
     end
 
     def verify_code
+      p "in verify_code route"
+      p params
       user_entered_code = params[:number]
-      current_user
+      @user = current_user
       username = @user.name
       if user_entered_code == @user.verification_code
         set_phone_verified

@@ -3,7 +3,15 @@ module UsersHelper
   private
 
   def current_user
-    @user = User.find_by(id: session[:user_id]) unless session[:used_id].nil?
+    unless @user
+      p "in current user helper"
+      @user = User.find_by(id: params[:user_id])
+      session[:user_id] = @user.id
+      p "results of current helper:  #{@user.email} and #{session[:user_id]}"
+      @user
+    else
+      @user
+    end
   end
 
   def set_user_phone
