@@ -46,7 +46,7 @@ class UsersController < ActionController::API
     p @user
     set_session
     p session[:user_id]
-    if current_user && @user.password == params[:password]
+    if @user && @user.password == params[:password]
       render :json => { id: "#{@user.id}"}
     else
       render :json => {error: "user not found, login failed"}
