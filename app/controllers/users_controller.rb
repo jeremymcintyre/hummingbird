@@ -27,7 +27,7 @@ class UsersController < ActionController::API
     @user.password = params[:password]
 
     if @user.save
-      session[:user_id] = @user.id
+      set_session
       p "here's the session" * 5
       p session
       p "here's the new user" * 5
@@ -44,10 +44,10 @@ class UsersController < ActionController::API
     p params
     p "attempting login with user" * 5
     p @user
-    sessionp[:user_id] = @user.id
+    set_session
     p session[:user_id]
     if current_user && @user.password == params[:password]
-      render :json => { success: "user #{@user.id} exists, and is logged in with session #{session[:user_id]}"}
+      render :json => { id: "#{@user.id}"}
     else
       render :json => {error: "user not found, login failed"}
     end
@@ -57,15 +57,12 @@ class UsersController < ActionController::API
   end
 
   def logout
-    if current_user
-      session[:user_id] = nil
-      render :json => { success: "successful logout"}
-    else
-      render :json => { error: "logout failed" }
-    end
+    logout_user if current_session?
   end
 
   def send_verification_code
+    set_user
+    set_session
     p "first, the params"
     p params
     current_user # This doesn't work right
@@ -89,11 +86,10 @@ class UsersController < ActionController::API
       p "in verify_code route"
       p params
       user_entered_code = params[:number]
-      @user = current_user
-      username = @user.name
+      p set_user
       if user_entered_code == @user.verification_code
         set_phone_verified
-        render :json => { phone_verified: true, welcome: "Hey #{username}!"}
+        render :json => { phone_verified: true, welcome: "Welcome to Hummingbird!"}
       else
         render :json => {error: "Your verification code is incorrect. Please request another."}
       end

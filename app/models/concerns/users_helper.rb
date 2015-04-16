@@ -2,16 +2,24 @@ module UsersHelper
 
   private
 
+  def current_session?
+    !!session[:user_id] # returns boolean of statement evaluation
+  end
+
   def current_user
-    unless @user
-      p "in current user helper"
-      @user = User.find_by(id: params[:user_id])
-      session[:user_id] = @user.id
-      p "results of current helper:  #{@user.email} and #{session[:user_id]}"
-      @user
-    else
-      @user
-    end
+   @user = User.find_by(id: session[:user_id])
+  end
+
+  def set_user
+    @user = User.find(params[:user_id])
+  end
+
+  def set_session
+    session[:user_id] = @user.id if @user
+  end
+
+  def logout_user
+    session[:user_id].delete
   end
 
   def set_user_phone
