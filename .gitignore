@@ -16,8 +16,4 @@
 /tmp
 .env
 
-# Ignore the secret token file
-
-/config/secrets.yml
-
 .DS_Store
