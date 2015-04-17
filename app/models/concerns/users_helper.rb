@@ -2,8 +2,26 @@ module UsersHelper
 
   private
 
+  def current_session?
+    !!session[:user_id] # returns boolean of statement evaluation
+  end
+
   def current_user
-    @user = User.find_by(id: params[:id])
+    #rename to find user by session
+   @user = User.find_by(id: session[:user_id])
+  end
+
+  def set_user
+    #rename to find user by params
+    @user = User.find(params[:user_id]) # these params come from the URL
+  end
+
+  def set_session
+    session[:user_id] = @user.id if @user
+  end
+
+  def logout_user
+    session[:user_id].delete
   end
 
   def set_user_phone
