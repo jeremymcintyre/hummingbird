@@ -19,13 +19,9 @@ class UsersController < ActionController::API
 
   def create
     p params
-    # if user exists, go to new message page
-    # else, make new user, set BCrypt password
-    # and return / leave them on login page
     @user = User.find_or_initialize_by(email: params[:email])
     @user.update_attributes(password_hash: params[:password])
     @user.password = params[:password]
-
     if @user.save
       set_session
       p "here's the session" * 5
@@ -39,25 +35,41 @@ class UsersController < ActionController::API
     end
   end
 
+  def new
+  # using to fetch user id if client has user_id in cookie
+    if current_session?
+      p "there is a session"
+      current_user
+      p @user
+      p response = { id: @user.id }
+      render :json => response
+    else
+      p "no current session"
+      render :json => { error: "couldn't find user based on client cookie" }
+    end
+  end
+
   def login
+    p "session"
+    p session[:user_id]
     @user = User.find_by(email: params[:email])
     p params
     p "attempting login with user" * 5
-    p @user
+    p @user.inspect
     set_session
     p session[:user_id]
     if @user && @user.password == params[:password]
-      render :json => { id: "#{@user.id}"}
+      render :json => { id: @user.id }
     else
       render :json => {error: "user not found, login failed"}
     end
-    # if user exists in DB, return JSON
-    # telling client to send user to new_message
-    # otherwise, render form error message?
   end
 
   def logout
+    p "leaving session" << session[:user_id]
     logout_user if current_session?
+    p "logged out"
+    p session
   end
 
   def send_verification_code
@@ -65,8 +77,8 @@ class UsersController < ActionController::API
     set_session
     p "first, the params"
     p params
-    current_user # This doesn't work right
-    p "session is: #{session[:user_id]} and user is #{current_user.email}"
+    current_user # rewrite this
+    p "session is: #{session[:user_id]} and user is #{current_user.inspect}"
     set_user_phone
 
     if /\+1\d{10}/.match(params[:number])

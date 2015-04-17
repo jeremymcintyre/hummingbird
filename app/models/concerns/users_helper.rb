@@ -7,11 +7,13 @@ module UsersHelper
   end
 
   def current_user
+    #rename to find user by session
    @user = User.find_by(id: session[:user_id])
   end
 
   def set_user
-    @user = User.find(params[:user_id])
+    #rename to find user by params
+    @user = User.find(params[:user_id]) # these params come from the URL
   end
 
   def set_session
