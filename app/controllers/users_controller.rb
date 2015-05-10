@@ -20,7 +20,11 @@ class UsersController < ActionController::API
   def create
     p params
     @user = User.find_or_initialize_by(email: params[:email])
+    p "user found is: "
+    p @user
     @user.update_attributes(password_hash: params[:password])
+    p "updated user: "
+    p @user
     @user.password = params[:password]
     if @user.save
       set_session
@@ -45,12 +49,13 @@ class UsersController < ActionController::API
       render :json => response
     else
       p "no current session"
-      render :json => { error: "couldn't find user based on client cookie" }
+      p response = { error: "couldn't find user based on client cookie" }
+      render :json => response
     end
   end
 
   def login
-    p "session"
+    p "login session"
     p session[:user_id]
     @user = User.find_by(email: params[:email])
     p params
@@ -59,16 +64,18 @@ class UsersController < ActionController::API
     set_session
     p session[:user_id]
     if @user && @user.password == params[:password]
-      render :json => { id: @user.id }
+      response = { id: @user.id, session_id: session[:user_id] }
+      render :json => response
     else
-      render :json => {error: "user not found, login failed"}
+      response = {error: "user not found, login failed"}
+      render :json => response
     end
   end
 
   def logout
-    p "leaving session" << session[:user_id]
+    p "leaving session #" << session[:user_id]
     logout_user if current_session?
-    p "logged out"
+    p "logged out, current session: "
     p session
   end
 
