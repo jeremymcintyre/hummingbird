@@ -60,7 +60,7 @@ class UsersController < ActionController::API
     @user = User.find_by(email: params[:email])
     p params
     p "attempting login with user" * 5
-    p @user.inspect
+    p @user
     set_session
     p session[:user_id]
     if @user && @user.password == params[:password]
