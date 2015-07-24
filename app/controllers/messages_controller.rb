@@ -1,5 +1,4 @@
 class MessagesController < ActionController::API
-  include MessagesHelper
   include UsersHelper
 
   def create
@@ -11,13 +10,14 @@ class MessagesController < ActionController::API
     message.save
   end
 
+  def destroy
+    Message.find_by(id: params[:id]).destroy
+  end
+
+  # if params sent="true", show sent messages, otherwise show delivered
   def index
-    # p "Params are : #{ params}"
-    # p "Is in Params is : #{ params[:user_id]}"
-    # p "User is #{ User.find_by(id: params[:user_id].to_i).name}"
     user = User.find_by(id: params[:user_id].to_i)
     sent_status = to_boolean(params[:sent])
-    # p user.messages.pluck(:sent)
 
     if params[:sent]
       messages = user.messages.where(sent: sent_status).order('send_at_datetime ASC')
@@ -28,11 +28,7 @@ class MessagesController < ActionController::API
     end
   end
 
-  def destroy
-    Message.find_by(id: params[:id]).destroy
-  end
-
-private
+  private
   def to_boolean(string)
     string == 'true'
   end
