@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-
   # You can have the root of your site routed with "root"
-  root 'user#index'
+  root 'users#index'
 
+  match '/register', to: 'users#create', via: :post
+  match '/login', to: 'sessions#create', via: :post
+  match '/send_verification_code', to: 'verification_codes#new', via: :get
+  match '/verify_code', to: 'verification_codes#create', via: :post
+  match '/scheduled', to: 'messages#scheduled', via: :get
+  match '/delivered', to: 'messages#delivered', via: :get
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
@@ -12,15 +17,10 @@ Rails.application.routes.draw do
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
-      resources :users do
-        member do
-          post 'login', as: "login"
-          post 'send_verification_code', as: "send_verification_code"
-          post 'verify_code'
-        end
-        resources :messages do
-        end
-      end
+      resources :users, only: [:create]
+      resources :messages, only: [:create, :scheduled, :delivered]
+      resources :sessions, only: [:new, :create, :destroy]
+      resources :verification_codes, only: [:new, :create]
   #   resources :products
 
   # Example resource route with options:
