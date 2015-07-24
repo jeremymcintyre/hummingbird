@@ -11,7 +11,7 @@ class SessionsController < ActionController::API
       render :json => response
     else
       p "no current session"
-      p response = { status: "error" error: "User does not have an active session." }
+      p response = { status: "error", error: "User does not have an active session." }
       render :json => response
     end
   end
@@ -29,10 +29,10 @@ class SessionsController < ActionController::API
     set_session
     p session[:user_id]
     if @user && @user.password == params[:password]
-      response = { id: @user.id, session_id: session[:user_id] }
+      response = { status: "success", id: @user.id, session_id: session[:user_id] }
       render :json => response
     else
-      response = {error: "user not found, login failed"}
+      response = {status: "error", error: "user not found, login failed"}
       render :json => response
     end
   end

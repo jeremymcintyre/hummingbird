@@ -4,12 +4,12 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'users#index'
 
-  match '/register', to: 'users#create', via: :post
-  match '/login', to: 'sessions#create', via: :post
-  match '/send_verification_code', to: 'verification_codes#new', via: :get
-  match '/verify_code', to: 'verification_codes#create', via: :post
-  match '/scheduled', to: 'messages#scheduled', via: :get
-  match '/delivered', to: 'messages#delivered', via: :get
+  post '/register', to: 'users#create'
+  post '/login', to: 'sessions#create'
+  post '/send_verification_code', to: 'verification_codes#create'
+  put '/verify_code', to: 'verification_codes#update'
+  get '/scheduled', to: 'messages#scheduled'
+  get '/delivered', to: 'messages#delivered'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

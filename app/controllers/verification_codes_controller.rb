@@ -2,7 +2,7 @@ class VerificationCodesController < ActionController::API
   include MessagesHelper
   # GET request
   # sends user a verification code
-  def new
+  def create
     set_user
     set_session
     p "first, the params"
@@ -26,7 +26,7 @@ class VerificationCodesController < ActionController::API
 
   # POST request
   # sets phone_verified flag to true if user enters correct code
-    def create
+    def update
       p "in verify_code route"
       p params
       user_entered_code = params[:number]

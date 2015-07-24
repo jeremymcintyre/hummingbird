@@ -15,7 +15,7 @@ class UsersController < ActionController::API
     if @user.save
       set_session
       p "here's the session" * 5
-      p session
+      p session[:user_id]
       p "here's the new user" * 5
       p @user
       data = { status: "success", id: @user.id }
