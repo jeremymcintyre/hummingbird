@@ -1,10 +1,13 @@
 class VerificationCodesController < ActionController::API
   include MessagesHelper
+  include UsersHelper
   # GET request
   # sends user a verification code
   def create
     set_user
+    p @user
     set_session
+    p session[:user_id]
     p "first, the params"
     p params
     current_user # rewrite this
@@ -29,7 +32,7 @@ class VerificationCodesController < ActionController::API
     def update
       p "in verify_code route"
       p params
-      user_entered_code = params[:number]
+      user_entered_code = params[:code]
       p set_user
       if user_entered_code == @user.verification_code
         set_phone_verified

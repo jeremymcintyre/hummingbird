@@ -1,4 +1,5 @@
 class MessagesController < ActionController::API
+  include UsersHelper
 
   def create
     user = User.find_by(id: params[:user_id].to_i)
@@ -13,14 +14,18 @@ class MessagesController < ActionController::API
     Message.find_by(id: params[:id]).destroy
   end
 
-  def scheduled
-    messages = current_user.messages.where(sent: false).order('send_at_datetime ASC')
-    render json: {messages: messages}
-  end
+  # if params sent="true", show sent messages, otherwise show delivered
+  def index
+    user = User.find_by(id: params[:user_id].to_i)
+    sent_status = to_boolean(params[:sent])
 
-  def delivered
-    messages = current_user.messages.where(sent: true).order('send_at_datetime ASC')
-    render json: {messages: messages}
+    if params[:sent]
+      messages = user.messages.where(sent: sent_status).order('send_at_datetime ASC')
+      render json: {messages: messages}
+    else
+      messages = user.messages
+      render json: {messages: messages}
+    end
   end
 
   private

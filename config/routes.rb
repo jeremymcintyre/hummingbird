@@ -8,8 +8,6 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   post '/send_verification_code', to: 'verification_codes#create'
   put '/verify_code', to: 'verification_codes#update'
-  get '/scheduled', to: 'messages#scheduled'
-  get '/delivered', to: 'messages#delivered'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
@@ -17,10 +15,11 @@ Rails.application.routes.draw do
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
-      resources :users, only: [:create]
-      resources :messages, only: [:create, :scheduled, :delivered]
+      resources :users, only: [:create] do
+        resources :messages, only: [:index, :create]
+        resources :verification_codes, only: [:new, :create]
+      end
       resources :sessions, only: [:new, :create, :destroy]
-      resources :verification_codes, only: [:new, :create]
   #   resources :products
 
   # Example resource route with options:
