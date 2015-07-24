@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   post '/send_verification_code', to: 'verification_codes#create'
   put '/verify_code', to: 'verification_codes#update'
+  delete '/logout', to: 'sessions#destroy'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
@@ -16,7 +17,7 @@ Rails.application.routes.draw do
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
       resources :users, only: [:create] do
-        resources :messages, only: [:index, :create]
+        resources :messages, only: [:index, :create, :destroy]
         resources :verification_codes, only: [:new, :create]
       end
       resources :sessions, only: [:new, :create, :destroy]
